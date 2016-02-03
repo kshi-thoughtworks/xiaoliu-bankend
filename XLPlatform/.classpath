@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="D:/java_lib/activation.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/axis.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/commons-discovery-0.5.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/commons-logging-4.0.6.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/commons-pool-1.5.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/javaee.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/jedis-2.1.0.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/json-20151123.jar" sourcepath="D:/maven/Repository/org/json/json/20151123/json-20151123-sources.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/junit-4.0.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/log4j-1.2.5.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/mail.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/mysql-connector-java-5.1.16.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/org.springframework.asm-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/spring-beans-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/spring-context-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/spring-core-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/spring-expression-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/spring-jdbc-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/spring-tx-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/wsdl4j-1.6.2.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/dubbo-2.5.3.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/Snyc_sysInfo_API.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/javassist-3.18.1-GA.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/spring-aop-3.1.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/netty-3.7.0.Final.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/zkclient-0.7.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/zookeeper-3.4.6.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/slf4j-log4j12-1.6.6.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/commons-httpclient-3.0.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/json-lib-2.4.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/ezmorph-1.0.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/commons-collections.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/commons-codec-1.5.jar"/>
+	<classpathentry kind="lib" path="D:/java_lib/gd.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
