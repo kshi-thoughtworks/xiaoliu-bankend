@@ -31,7 +31,7 @@ public class OutputManager {
 				 //未完成
 				 //第一个参数要替换为流水号
 				try {
-					ngec=ECUtils.EC0001(request.getString("transaction_code"), "2000702804", "1", "4LM0NLN1r3OEASfEIL3i2YdKHnL1eYEt", request.getString("phone"), request.getInt("flowValue"));
+					ngec=ECUtils.EC0001(request.getString("transaction_code"), "2000473393", "llzyc1", "v5VF7yabChZymsqrLuyrIYdKHnL1eYEt", request.getString("phone"), request.getInt("flowValue"));
 					 
 				} catch (Exception e) {
 					e.printStackTrace();
