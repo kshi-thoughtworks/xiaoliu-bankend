@@ -9,9 +9,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class Init {
 	public static void initBusinessUser() {
+		
+		System.out.println("加载用户信息");
 		try {
 			List list = Global.jdbcTemplate.queryForList(
 					"select bu.`code`,bu.state,b.balance,bu.alert_balance from business_user bu,balance b where bu.id=b.business_user_id");
+			
+			System.out.println("加载用户信息2");
 			if (list == null) {
 				return;
 			}
@@ -28,6 +32,7 @@ public class Init {
 				Global.BUSINESS_USER_ALERT_BALANCE.put(
 						Global.HEAD_BUSINESS_USER_ALERT_BALANCE + ((Map) list.get(i)).get("code"),
 						Long.valueOf(Long.parseLong(((Map) list.get(i)).get("alert_balance").toString())));
+				System.out.println("用户信息加载完毕");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

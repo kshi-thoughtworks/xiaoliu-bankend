@@ -419,7 +419,7 @@ public class JedisUtil {
 		try {
 
 			jedis = jedisPool.getResource();
-			bytes = jedis.rpop(key);
+			bytes = jedis.brpop(0, key).get(1);
 
 		} catch (Exception e) {
 

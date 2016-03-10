@@ -12,7 +12,7 @@ public class LogThread {
 		for (int i = 0; i < Global.lOG_THREAD_COUNT.intValue(); i++) {
 			Thread thread = new Thread() {
 				public void run() {
-					while (true) {
+					while (Global.THREAD_STOP) {
 						String input = "";
 						try {
 							input = JedisUtil.rpop(Global.LOG_QUEUE);
@@ -37,13 +37,18 @@ public class LogThread {
 									} else if (request.getInt("transaction_state") == 2) {
 										TransactionDao dao = new TransactionDao();
 										dao.transactionLogforState_F(request);
+										if(request.getLong("tprice")>request.getLong("dprice"))
+										{
+											dao.transactionLogforLoss(request);
+										}
+										
 									} else if (request.getInt("transaction_state") == 3) {
 										TransactionDao dao = new TransactionDao();
 										dao.transactionLogforState_T(request);
 									}
 								} else if (request.getInt("transaction_type") == 2) {
 									Global.jdbcTemplate
-											.execute("update recharge_log set recharge_flow_number='流水号' where id="
+											.execute("update recharge_log set recharge_flow_number='"+request.getString("transaction_code")+"' where id="
 													+ request.getInt("recharge_log_id"));
 								}
 							} catch (Exception e) {
@@ -54,6 +59,7 @@ public class LogThread {
 					}
 				}
 			};
+			Global.THREAD_POOL.add(thread);
 			thread.start();
 		}
 	}

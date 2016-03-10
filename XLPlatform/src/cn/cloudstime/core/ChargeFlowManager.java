@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 public class ChargeFlowManager {
 	public boolean ChrageFlow(JSONObject request) {
-		System.out.println("处理请求");
+		System.out.println("处理请求"+request);
 
 		request.put("transaction_code", SysOrderNoFinder.getOrderNo());
 
@@ -82,7 +82,7 @@ public class ChargeFlowManager {
 
 			Long balance = bubb.transaction(Integer.valueOf(1),
 					Long.valueOf(((JSONObject) channels.get("channel_0")).getLong("dprice")));
-
+			
 			if (balance.longValue() > -1L) {
 				request.put("balance", balance);
 				request.put("deduction", ((JSONObject) channels.get("channel_0")).getLong("dprice"));
@@ -91,6 +91,7 @@ public class ChargeFlowManager {
 				request.put("platform_id", ((JSONObject) channels.get("channel_0")).getInt("platform_id"));
 				request.put("platform_name", ((JSONObject) channels.get("channel_0")).getString("name"));
 				request.put("tprice", ((JSONObject) channels.get("channel_0")).getLong("tprice"));
+				request.put("dprice", ((JSONObject) channels.get("channel_0")).getLong("dprice"));
 
 				JedisUtil.lpush(Global.OUPPUT_QUEUE, request.toString());
 			} else {

@@ -56,4 +56,56 @@ public class Snyc_sysInfoImpl implements Snyc_sysInfo {
 		
 	}
 
+	
+	@Override
+	public boolean platformCoreClose() {
+		Global.THREAD_STOP=false;
+		
+		
+		for(int i=0;i<Global.THREAD_POOL.size();i++)
+		{
+			Global.THREAD_POOL.get(i).interrupt();
+		}
+		
+		
+		
+		while(true)
+		{
+			boolean flag=true;
+			
+			for(int i=0;i<Global.THREAD_POOL.size();i++)
+			{
+				if(!"TERMINATED".equals(Global.THREAD_POOL.get(i).getState().toString()))
+				{
+					flag=false;
+				}
+				
+			}
+			
+			
+			if(flag)
+			{
+				//退出前进行一次数据同步操作
+				//未完成
+				System.exit(0);
+				return true;
+			}
+			
+			
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+	}
+
 }

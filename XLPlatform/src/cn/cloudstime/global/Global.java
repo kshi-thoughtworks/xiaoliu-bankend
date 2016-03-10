@@ -1,7 +1,10 @@
 package cn.cloudstime.global;
 
 import cn.cloudstime.bean.BusinessUserBalanceBean;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
 import org.springframework.context.ApplicationContext;
@@ -31,21 +34,23 @@ public class Global {
 
 	public static String HEAD_NUMBER_RULES = "RULE_";
 
-	public static ApplicationContext factory = new ClassPathXmlApplicationContext("ApplicationContext.xml");
+	public static ApplicationContext factory ;
 
-	public static JdbcTemplate jdbcTemplate = (JdbcTemplate) factory.getBean("jdbcTemplate");
+	public static JdbcTemplate jdbcTemplate ;
 
-	public static Integer TRANSACTION_THREAD_COUNT = Integer.valueOf(100);
+	public static Integer TRANSACTION_THREAD_COUNT = Integer.valueOf(10);
 
-	public static Integer OUTPUT_THREAD_COUNT = Integer.valueOf(100);
+	public static Integer OUTPUT_THREAD_COUNT = Integer.valueOf(10);
 
-	public static Integer RESPONSE_THREAD_COUNT = Integer.valueOf(100);
+	public static Integer RESPONSE_THREAD_COUNT = Integer.valueOf(10);
 
-	public static Integer lOG_THREAD_COUNT = Integer.valueOf(100);
+	public static Integer lOG_THREAD_COUNT = Integer.valueOf(10);
 
 	public static Integer EXCEPTION_THREAD_COUNT = Integer.valueOf(10);
 
-	public static Integer NOTIFY_THREAD_COUNT = Integer.valueOf(50);
+	public static Integer NOTIFY_THREAD_COUNT = Integer.valueOf(5);
+	
+	public static Integer CHANNELFAIL_lOG_THREAD_COUNT = Integer.valueOf(5);
 
 	public static Long TRANSACTION_THREAD_SLEEPTIME = Long.valueOf(200L);
 
@@ -58,6 +63,8 @@ public class Global {
 	public static Long EXCEPTION_THREAD_SLEEPTIME = Long.valueOf(200L);
 
 	public static Long NOTIFY_THREAD_SLEEPTIME = Long.valueOf(200L);
+	
+	public static Long CHANNELFAIL_lOG_THREAD_SLEEPTIME = Long.valueOf(200L);
 
 	public static String REQUEST_QUEUE = "REQUEST_QUEUE";
 
@@ -70,10 +77,12 @@ public class Global {
 	public static String EXCEPTION_QUEUE = "EXCEPTION_QUEUE";
 
 	public static String NOTIFY_QUEUE = "NOTIFY_QUEUE";
+	
+	public static String CHANNELFAIL_QUEUE="CHANNEL_FAIL_QUEUE";
 
 	public static String BAIDU_PHONE_OWNERSHIP_KEY = "9d7cfc9acba0606e959b3505c5fe06a0";
 
-	public static String REDIS_HOST_IP = "10.174.10.9";
+	public static String REDIS_HOST_IP = "192.168.0.135";
 
 	public static String EXCEPTION_CODE_BUSINESS_USER_STATE_ERROR = "6001";
 
@@ -99,4 +108,8 @@ public class Global {
 		EXCEPTION_MAP.put(EXCEPTION_BUSINESS_ORDERNO_REPEAT, "订单号重复");
 		EXCEPTION_MAP.put(EXCEPTION_CHANNEL_OUTPUT_ERROR, "第三方接口请求失败，无法充值");
 	}
+	
+	public static List<Thread> THREAD_POOL=new ArrayList<Thread>();
+	
+	public static boolean THREAD_STOP=true;
 }

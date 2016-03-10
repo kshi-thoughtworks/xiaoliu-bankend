@@ -25,7 +25,7 @@ public class ResponseThread {
 		for (int i = 0; i < Global.RESPONSE_THREAD_COUNT.intValue(); i++) {
 			Thread thread = new Thread() {
 				public void run() {
-					while (true) {
+					while (Global.THREAD_STOP) {
 						String input = "";
 						try {
 							input = JedisUtil.rpop(Global.RESPONSE_QUEUE);
@@ -43,6 +43,14 @@ public class ResponseThread {
 
 						} else {
 							JSONObject request = new JSONObject(input);
+							
+							if("".equals(request.getString("notifyUrl"))||request.getString("notifyUrl")==null)
+							{
+								continue;
+							}
+							
+							
+							
 
 							if ((!request.has("response_count")) || (request.getInt("response_count") <= 3)) {
 								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -123,6 +131,7 @@ public class ResponseThread {
 					}
 				}
 			};
+			Global.THREAD_POOL.add(thread);
 			thread.start();
 		}
 	}

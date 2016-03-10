@@ -1,104 +1,150 @@
 package com.cloudstime.test;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
+import org.apache.axis.encoding.Base64;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.json.JSONObject;
 
-import com.cloudstime.dao.TransactionDao;
 
-import cn.cloudstime.global.Global;
-import cn.cloudstime.main.FJUtils;
+
 import cn.cloudstime.util.MD5Utils;
 
 public class Test {
 	
 	public static void main(String[] args) {
-		//JSONObject j=new JSONObject();
-		//System.out.println(FJUtils.order("cztest01", "1", "cztest01", "123456781", "18210328639", "1", 20));
-	
-		 //���?������
-		 JSONObject request=new JSONObject();
-		 
-		 request.put("phone", "18210328639");
-		 request.put("extendss", "0");
-		 request.put("orderNo", "123123");
-		 request.put("transaction_error_info", "呵呵");
-		 request.put("transaction_code", "0000");
-		 request.put("phone", "18210328639");
-		 request.put("phone", "18210328639");
-		 request.put("phone", "18210328639");
-		 request.put("phone", "18210328639");
-		 request.put("phone", "18210328639");
-		 
-		 
-		 SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddhhmmss");
-		 
-		 
-		 
-		 String business_type="MNT";
-		 String card_no=request.getString("phone");
-		 String extendss=request.has("extendss")?request.getString("extendss"):"";
-		 String notify_id=UUID.randomUUID().toString();
-		 String notify_time=sdf.format(new Date());
-		 String notify_type="trade_status_sync";
-		 String order_no=request.getString("orderNo");
-		 String status_desc=request.has("transaction_error_info")?request.getString("transaction_error_info"):"success";
-		 String trade_no=request.getString("transaction_code");
-		 Integer trade_status=request.has("transaction_error_code")?request.getInt("transaction_error_code"):0;                   		
-		 TransactionDao dao=new TransactionDao();
-		 String key="AAAAAAAA";
-		 
-		 
-		 
-		 //ǩ��ǰ
-		 String str="business_type="+business_type+"&card_no="+card_no+"&extendss="+
-		 extendss+"&notify_id="+notify_id+"&notify_time="+notify_time+
-		 "&notify_type="+notify_type+"&order_no="+order_no+"&status_desc="+status_desc+
-		 "&trade_no="+trade_no+"&trade_status"+trade_status+"&key="+MD5Utils.MD5(key);
-		 String sign = MD5Utils.MD5(str);
-		 
-		 JSONObject obj=new JSONObject();
-		 obj.put("business_type", business_type);
-		 obj.put("card_no", card_no);
-		 obj.put("extendss", extendss);
-		 obj.put("notify_id", notify_id);
-		 obj.put("notify_time", notify_time);
-		 obj.put("notify_type", notify_type);
-		 obj.put("order_no", order_no);
-		 obj.put("status_desc", status_desc);
-		 obj.put("trade_no", trade_no);
-		 obj.put("trade_status", trade_status);
-		 obj.put("sign", sign);
-		 obj.put("sign_type", "MD5");
-		 
-		 try {
+		
+		
+//		HttpMethodParams params=new HttpMethodParams();
+//		params.setParameter("username", "khcs");
+//		params.setParameter("password", MD5Utils.MD5("khcs"+MD5Utils.MD5("19n4ypgs")));
+//		params.setParameter("mobile", "18210328639");
+//		params.setParameter("content", "短信测试");
+		
+//		 JSONObject obj=new JSONObject();
+//		 obj.put("username", "khcs");
+//		 obj.put("password", MD5Utils.MD5("khcs"+MD5Utils.MD5("19n4ypgs")));
+//		 obj.put("mobile", "18210328639");
+//		 obj.put("content", "短信测试");
+//		 obj.put("dstime", "");
+//		 obj.put("ext", "");
+//		 obj.put("msgid ", "");
+//		 obj.put("msgfmt ", "");
+//		 
+//		 
+//		 
+//		 try {
+//			 
+//   		 
+//  		HttpClient client = new HttpClient();
+//		JSONObject json = new JSONObject();
+//		PostMethod post = new PostMethod();
+//		post.setURI(new URI("http://www.jc-chn.cn/smsSend.do"));
+//		post.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+//		//post.setParams(params);
+//		StringRequestEntity entity = new StringRequestEntity(obj.toString());
+//		post.setRequestEntity(entity);
+//		client.executeMethod(post);
+//		String result = post.getResponseBodyAsString();
+//		System.out.println(result);
+			
+//			 GetMethod get=new GetMethod();
+//			 get.setURI(new URI("http://www.jc-chn.cn/smsSend.do?username=khcs&password="+MD5Utils.MD5("khcs"+MD5Utils.MD5("19n4ypgs"))+"&mobile=18210328639&content=短信测试&dstime&ext=&msgid=&msgfmt="));
+//
+//			 client.executeMethod(get);
+//			 
+//			 System.out.println(get.getResponseBodyAsString());
+//			
 			 
-   		 
-   		HttpClient client = new HttpClient();
-		JSONObject json = new JSONObject();
-		PostMethod post = new PostMethod();
-		post.setURI(new URI("http://101.201.152.32:8080/cloudstime/notify"));
-		post.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-		StringRequestEntity entity = new StringRequestEntity(obj.toString());
-		post.setRequestEntity(entity);
-		client.executeMethod(post);
-		String result = post.getResponseBodyAsString();
-		System.out.println(result);
+//			 String content = "小流之家，您好，您在小流之家的余额已不足3000元。"; 
+//				StringBuffer sb = new StringBuffer("http://www.jc-chn.cn/smsSend.do?");
+//				sb.append("username=khcs");
+//				sb.append("&password="+MD5Utils.MD5("khcs"+MD5Utils.MD5("19n4ypgs")));
+//				sb.append("&mobile=18210328639");
+//				sb.append("&content="+URLEncoder.encode(content,"utf-8"));
+//				sb.append("&dstime=");
+//				URL url = new URL(sb.toString());
+//				URLConnection conn = url.openConnection();
+//				conn.setRequestProperty("accept", "*/*");
+//				conn.setRequestProperty("connection", "Keep-Alive");
+//				conn.connect(); 
+//				BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+//				String line = "";
+//				String result = "";
+//				while ((line=in.readLine())!=null){
+//					result += line + "\n";
+//				}
+//			in.close();
+//			System.out.println(result);
+//
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		testyzx();
+	}
+	
+	
+	public static void testyzx()
+	{
+		try {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSS");
+			
+			
+			Date d=new Date();
+			String time=sdf.format(d);
+			
+			
+			HttpClient client = new HttpClient();
+			JSONObject obj = new JSONObject();
+			
+			obj.put("appId", "623f4256803640f3ad117e17a59c6788");
+			obj.put("templateId", "21303");
+			obj.put("to", "18210328639");
+			obj.put("param", "2016-03-09 15:50:00,1000");
+			
+			
+			
+			JSONObject o=new JSONObject();
+			o.put("templateSMS", obj);
+			
+			
+			PostMethod post = new PostMethod();
+			
+			String url="https://api.ucpaas.com/2014-06-30/Accounts/5bec8cde0e12b388312bfbdb7f75887f/Messages/templateSMS?sig="+MD5Utils.MD5("5bec8cde0e12b388312bfbdb7f75887f"+"60cc5c3d77b097cd8e9f3adfbd4ed290"+time).toUpperCase();
+			
+			System.out.println(url);
+			
+			post.setURI(new URI(url));
+			post.setRequestHeader("Accept", "application/json");
+			post.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+			post.setRequestHeader("Authorization", new String(Base64.encode(("5bec8cde0e12b388312bfbdb7f75887f"+":"+time).getBytes())));
+			
+			System.out.println(new String(Base64.encode(("5bec8cde0e12b388312bfbdb7f75887f"+":"+time).getBytes())));
+			
+			
+			
+			StringRequestEntity entity = new StringRequestEntity(o.toString());
+			post.setRequestEntity(entity);
+			client.executeMethod(post);
+			String result = post.getResponseBodyAsString();
+			System.out.println(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
+	
+	
 
 }

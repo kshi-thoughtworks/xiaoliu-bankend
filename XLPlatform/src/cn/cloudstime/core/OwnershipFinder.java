@@ -21,8 +21,13 @@ public class OwnershipFinder {
 			ownsership = dao.findOwnershipByLocal(request);
 
 			if (!ownsership.has("province"))
-				;
+			{
 			return findOwnershipFromNet(request);
+			}
+			else
+			{
+				return ownsership;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 

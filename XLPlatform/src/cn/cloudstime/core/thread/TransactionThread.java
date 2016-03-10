@@ -14,7 +14,7 @@ public class TransactionThread {
 		for (int i = 0; i < Global.TRANSACTION_THREAD_COUNT.intValue(); i++) {
 			Thread thread = new Thread() {
 				public void run() {
-					while (true) {
+					while (Global.THREAD_STOP) {
 						String input = "";
 						try {
 							input = JedisUtil.rpop(Global.REQUEST_QUEUE);
@@ -52,6 +52,7 @@ public class TransactionThread {
 					}
 				}
 			};
+			Global.THREAD_POOL.add(thread);
 			thread.start();
 		}
 	}

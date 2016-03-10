@@ -6,6 +6,7 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import cn.cloudstime.global.Global;
+import cn.cloudstime.util.JedisUtil;
 
 public class TransactionDao {
 	
@@ -128,31 +129,48 @@ public class TransactionDao {
 		System.err.println(request);
 		
 		try {
+			List<Map<String,Object>> list= Global.jdbcTemplate.queryForList("" +
+					"select * from sets where code='"+request.getString("set_code")+"'");
+			
+			
 			if("6001".equals(request.getString("transaction_error_code"))||"6002".equals(request.getString("transaction_error_code"))||"6003".equals(request.getString("transaction_error_code"))||"6005".equals(request.getString("transaction_error_code"))||"6006".equals(request.getString("transaction_error_code")))
 			{
 				Global.jdbcTemplate.execute("update transaction_log set " +
 						"transaction_code ='"+request.getString("transaction_code")+"'," +
 						"bu_code ='"+request.getString("business_user_code")+"'," +
-						"update_time = SYSDATE()," +
+						"deduction ="+request.getLong("deduction")+"," +
+						"balance = "+request.getLong("balance")+"," +
+						//"update_time = SYSDATE()," +
+						"operators  ='"+request.getString("operator_code")+"'," +
+						"set_code = '"+request.getString("set_code")+"'," +
+						"operators_area = '"+list.get(0).get("area_code").toString()+"'," +
+						"recharge_area = '"+list.get(0).get("recharge_area").toString()+"'," +
+						"business_type = "+Integer.valueOf(list.get(0).get("business_type").toString())+"," +
+						"flow_type = "+Integer.valueOf(list.get(0).get("flow_type").toString())+"," +
+						"flow_value ="+Integer.valueOf(list.get(0).get("flow_value").toString())+"," +
+						"expiry_date = "+Integer.valueOf(list.get(0).get("expiry_date").toString())+"," +
+						"add_able = "+Integer.valueOf(list.get(0).get("add_able").toString())+"," +
+						"enable_rule = "+Integer.valueOf(list.get(0).get("enable_rule").toString())+"," +
+						"price = "+request.getLong("tprice")+"," +
 						"phone_number = '"+request.getString("phone")+"'," +
 						"status =0," +
 						"return_msg ='"+request.getString("transaction_error_info")+"'," +
 						"bu_transaction_code ='"+request.getString("orderNo")+"'" +
+						//"platform_name ='"+request.getString("platform_name")+"'" +
 						" where transaction_code='"+request.getString("transaction_code")+"'");
 				
 				
 			}
 			else if("6004".equals(request.getString("transaction_error_code")))
 			{
-				List<Map<String,Object>> list= Global.jdbcTemplate.queryForList("" +
-						"select * from sets where code='"+request.getString("set_code")+"'");
+				
 				
 				Global.jdbcTemplate.execute("update transaction_log set " +
 						"transaction_code ='"+request.getString("transaction_code")+"'," +
 						"bu_code ='"+request.getString("business_user_code")+"'," +
 						"deduction ="+request.getLong("deduction")+"," +
 						"balance = "+request.getLong("balance")+"," +
-						"update_time = SYSDATE()," +
+						//"update_time = SYSDATE()," +
 						"operators  ='"+request.getString("operator_code")+"'," +
 						"set_code = '"+request.getString("set_code")+"'," +
 						"operators_area = '"+list.get(0).get("area_code").toString()+"'," +
@@ -200,7 +218,7 @@ public class TransactionDao {
 					"bu_code ='"+request.getString("business_user_code")+"'," +
 					"deduction ="+request.getLong("deduction")+"," +
 					"balance = "+request.getLong("balance")+"," +
-					"update_time = SYSDATE()," +
+					//"update_time = SYSDATE()," +
 					"operators  ='"+request.getString("operator_code")+"'," +
 					"set_code = '"+request.getString("set_code")+"'," +
 					"operators_area = '"+list.get(0).get("area_code").toString()+"'," +
@@ -261,12 +279,75 @@ public class TransactionDao {
 		
 	}
 	
+	
+	/**
+	 * 亏损日志
+	 * @param request
+	 * @return
+	 */
+	public boolean transactionLogforLoss(JSONObject request)
+	{
+		List<Map<String,Object>> list= Global.jdbcTemplate.queryForList("" +
+				"select * from sets where code='"+request.getString("set_code")+"'");
+		
+		if(list!=null&&list.size()==1)
+		{
+		Global.jdbcTemplate.execute("INSERT INTO transaction_log( transaction_code, bu_code,"+ 
+			      "deduction, balance, update_time, "+
+			      "operators, set_code, operators_area, "+
+			      "recharge_area, business_type, flow_type, "+
+			      "flow_value, expiry_date, add_able, "+
+			      "enable_rule, price, phone_number, "+
+			      "status, return_msg,bu_transaction_code,platform_name) " +
+		 		" VALUES (" +
+		 		" '"+request.getString("transaction_code")+"'," +
+		 		" '"+request.getString("business_user_code")+"'," +
+		 		" "+request.getLong("deduction")+"," +
+		 		" "+request.getLong("balance")+"," +
+		 		" SYSDATE()," +
+		 		" '"+request.getString("operator_code")+"'," +
+		 		" '"+request.getString("set_code")+"'," +
+		 		" '"+list.get(0).get("area_code").toString()+"'," +
+		 		" '"+list.get(0).get("recharge_area").toString()+"'," +
+		 		" "+Integer.valueOf(list.get(0).get("business_type").toString())+"," +
+		 		" "+Integer.valueOf(list.get(0).get("flow_type").toString())+"," +
+		 		" "+Integer.valueOf(list.get(0).get("flow_value").toString())+"," +
+		 		" "+Integer.valueOf(list.get(0).get("expiry_date").toString())+"," +
+		 		" "+Integer.valueOf(list.get(0).get("add_able").toString())+"," +
+		 		" "+Integer.valueOf(list.get(0).get("enable_rule").toString())+"," +
+		 		" "+request.getLong("tprice")+"," +
+		 		" '"+request.getString("phone")+"'," +
+		 		" 1," +
+		 		" '充值成功'," +
+		 		" '"+request.getString("orderNo")+"'," +
+				" '"+request.getString("platform_name")+"')");
+		
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * 通道失败
+	 * @param request
+	 * @return
+	 */
+	public boolean channelFailLog(JSONObject request)
+	{
+		
+		Global.jdbcTemplate.execute("insert into channel_log(result_code,result_message,order_id,channel,error_time) values" +
+				"('"+request.getString("transaction_error_code")+"','"+request.getString("transaction_error_info")+"','"+request.getString("transaction_code")+"','"+request.getString("platform_name")+"',SYSDATE())");
+		
+		return true;
+	}
+	
+	
 	public void updateBalance(Long balance,String business_user_code)
 	{
 		Global.jdbcTemplate.execute("" +
 				"update balance set balance="+balance+","+
 				"update_time=SYSDATE()" +
-				" where business_user_id=(select id from business_user where code='"+business_user_code+"')");
+				" where business_user_id=(select id from business_user where state=1 and code='"+business_user_code+"')");
 	}
 	
 	
@@ -292,16 +373,28 @@ public class TransactionDao {
 		
 		String phonearea=request.getString("phone").substring(0, 7);
 		
-		List<Map<String,Object>> list= Global.jdbcTemplate.queryForList("" +
-				"select province,carrier from phone_belong_third where  phone='"+phonearea+"'");
+//		List<Map<String,Object>> list= Global.jdbcTemplate.queryForList("" +
+//				"select province,carrier from phone_belong_third where  phone='"+phonearea+"'");
+//		
+//		JSONObject obj=null;
+//		if(list!=null&&list.size()>0)
+//		{
+//			obj=new JSONObject();
+//			obj.put("province", list.get(0).get("province"));
+//			obj.put("supplier", list.get(0).get("carrier"));
+//		}
 		
-		JSONObject obj=null;
-		if(list!=null||list.size()>0)
-		{
-			obj=new JSONObject();
-			obj.put("province", list.get(0).get("province"));
-			obj.put("supplier", list.get(0).get("carrier"));
-		}
+		
+		
+		JSONObject result=new JSONObject(JedisUtil.get(phonearea));
+		
+		
+		JSONObject obj=new JSONObject();
+		obj.put("province", result.get("province"));
+		obj.put("supplier", result.get("carrier"));
+		
+		
+		
 		
 		return obj;
 	}
@@ -322,6 +415,23 @@ public class TransactionDao {
 		}
 		
 		return obj;
+	}
+	
+	
+	public String findPhoneByBuCode(String bucode)
+	{
+		List<Map<String,Object>> list= Global.jdbcTemplate.queryForList("" +
+				"select sms_number from business_user where  code='"+bucode+"'");
+		
+		if(list!=null||list.size()>0)
+		{
+			return String.valueOf(list.get(0).get("sms_number"));
+		}
+		else
+		{
+			return "";
+		}
+		
 	}
 	
 

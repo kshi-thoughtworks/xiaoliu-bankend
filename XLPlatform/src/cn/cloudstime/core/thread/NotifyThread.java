@@ -11,7 +11,7 @@ public class NotifyThread {
 		for (int i = 0; i < Global.NOTIFY_THREAD_COUNT.intValue(); i++) {
 			Thread thread = new Thread() {
 				public void run() {
-					while (true) {
+					while (Global.THREAD_STOP) {
 						String input = "";
 						try {
 							input = JedisUtil.rpop(Global.NOTIFY_QUEUE);
@@ -44,23 +44,42 @@ public class NotifyThread {
 							JSONObject channels = request.getJSONObject("channels");
 
 							if (result.getInt("state") == 0) {
-								request.put("transaction_type", 3);
-								request.put("price", ((JSONObject) channels.get("channel_0")).getLong("dprice"));
-								JedisUtil.lpush(Global.REQUEST_QUEUE, request.toString());
+								
+								
+								if (channels.has("channel_" + (request.getInt("target_channel_index") + 1))) {
+									
+									request.put("transaction_error_code", "0");
+									request.put("transaction_state", 3);
+									request.put("transaction_error_info", result.getString("retmsg"));
+									JedisUtil.lpush(Global.CHANNELFAIL_QUEUE, request.toString());
+									
+									request.put("target_channel_index", request.getInt("target_channel_index") + 1);
+									OutputManager out = new OutputManager();
+									out.output(request);
+								}
+								else
+								{
+									request.put("transaction_type", 3);
+									request.put("price", ((JSONObject) channels.get("channel_0")).getLong("dprice"));
+									JedisUtil.lpush(Global.REQUEST_QUEUE, request.toString());
 
-								request.put("transaction_error_info", result.get("retmsg"));
-
-								request.put("target_channel_index", request.getInt("target_channel_index") + 1);
-
-								request.put("transaction_type", 1);
-								OutputManager out = new OutputManager();
-								out.output(request);
+									
+									request.put("transaction_error_code", 0);
+									request.put("transaction_state", 3);
+									request.put("transaction_error_info", result.getString("retmsg"));
+									JedisUtil.lpush(Global.LOG_QUEUE, request.toString());
+									JedisUtil.lpush(Global.CHANNELFAIL_QUEUE, request.toString());
+									JedisUtil.lpush(Global.RESPONSE_QUEUE, request.toString());
+									
+								}
+								
+								
+								
+								
+								
 							} else {
-								JSONObject channel = channels
-										.getJSONObject("channel_" + request.getInt("target_channel_index"));
-
+								
 								request.put("transaction_state", 2);
-								request.put("platform_name", channel.getString("name"));
 
 								JedisUtil.lpush(Global.LOG_QUEUE, request.toString());
 
@@ -70,6 +89,7 @@ public class NotifyThread {
 					}
 				}
 			};
+			Global.THREAD_POOL.add(thread);
 			thread.start();
 		}
 	}

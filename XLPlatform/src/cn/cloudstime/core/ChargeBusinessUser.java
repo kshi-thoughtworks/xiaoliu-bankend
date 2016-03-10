@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 public class ChargeBusinessUser {
 	public boolean charge(JSONObject request) {
+		
+		request.put("transaction_code", SysOrderNoFinder.getOrderNo());
 		BusinessUserBalanceBean bubb = (BusinessUserBalanceBean) Global.BUSINESS_USER_BALANCE
 				.get(Global.HEAD_BUSINESS_USER_BALANCE + request.get("business_user_code"));
 
