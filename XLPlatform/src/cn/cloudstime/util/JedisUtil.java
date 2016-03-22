@@ -9,6 +9,7 @@ import cn.cloudstime.global.Global;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.util.Pool;
 
 public class JedisUtil {
 
@@ -34,6 +35,9 @@ public class JedisUtil {
 		config.setNumTestsPerEvictionRun(-1);
 		jedisPool = new JedisPool(config, JEDIS_IP, JEDIS_PORT, 60000);
 	}
+	
+	
+	
 
 	/**
 	 * 获取数据

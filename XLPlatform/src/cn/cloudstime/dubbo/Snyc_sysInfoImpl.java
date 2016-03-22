@@ -4,9 +4,12 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import redis.clients.jedis.Jedis;
+
 import cn.cloudstime.bean.BusinessUserBalanceBean;
 import cn.cloudstime.global.Global;
 import cn.cloudstime.service.Snyc_sysInfo;
+import cn.cloudstime.util.JedisUtil;
 
 public class Snyc_sysInfoImpl implements Snyc_sysInfo {
 
@@ -59,15 +62,20 @@ public class Snyc_sysInfoImpl implements Snyc_sysInfo {
 	
 	@Override
 	public boolean platformCoreClose() {
+		
+		System.out.println("核心交易系统正在关闭");
+		
 		Global.THREAD_STOP=false;
+		
+		
 		
 		
 		for(int i=0;i<Global.THREAD_POOL.size();i++)
 		{
 			Global.THREAD_POOL.get(i).interrupt();
+			
+			
 		}
-		
-		
 		
 		while(true)
 		{
@@ -75,6 +83,8 @@ public class Snyc_sysInfoImpl implements Snyc_sysInfo {
 			
 			for(int i=0;i<Global.THREAD_POOL.size();i++)
 			{
+				System.out.println(Global.THREAD_POOL.get(i).getState().toString());
+			
 				if(!"TERMINATED".equals(Global.THREAD_POOL.get(i).getState().toString()))
 				{
 					flag=false;

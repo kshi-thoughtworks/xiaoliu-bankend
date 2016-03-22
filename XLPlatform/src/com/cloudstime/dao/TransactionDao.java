@@ -104,7 +104,7 @@ public class TransactionDao {
 		 		" null," +
 		 		" null," +
 		 		" null," +
-		 		" null," +
+		 		" "+Integer.valueOf(request.getString("flowValue"))+"," +
 		 		" null," +
 		 		" null," +
 		 		" null," +
@@ -145,12 +145,12 @@ public class TransactionDao {
 						"set_code = '"+request.getString("set_code")+"'," +
 						"operators_area = '"+list.get(0).get("area_code").toString()+"'," +
 						"recharge_area = '"+list.get(0).get("recharge_area").toString()+"'," +
-						"business_type = "+Integer.valueOf(list.get(0).get("business_type").toString())+"," +
-						"flow_type = "+Integer.valueOf(list.get(0).get("flow_type").toString())+"," +
-						"flow_value ="+Integer.valueOf(list.get(0).get("flow_value").toString())+"," +
-						"expiry_date = "+Integer.valueOf(list.get(0).get("expiry_date").toString())+"," +
-						"add_able = "+Integer.valueOf(list.get(0).get("add_able").toString())+"," +
-						"enable_rule = "+Integer.valueOf(list.get(0).get("enable_rule").toString())+"," +
+						"business_type = "+Integer.valueOf(request.getString("businessType"))+"," +
+						"flow_type = "+Integer.valueOf(request.getString("flowType"))+"," +
+						"flow_value ="+Integer.valueOf(request.getString("flowValue"))+"," +
+						"expiry_date = "+Integer.valueOf(request.getString("expiryDate"))+"," +
+						"add_able = "+1+"," +
+						"enable_rule = "+Integer.valueOf(request.getString("enableRule"))+"," +
 						"price = "+request.getLong("tprice")+"," +
 						"phone_number = '"+request.getString("phone")+"'," +
 						"status =0," +
@@ -175,12 +175,12 @@ public class TransactionDao {
 						"set_code = '"+request.getString("set_code")+"'," +
 						"operators_area = '"+list.get(0).get("area_code").toString()+"'," +
 						"recharge_area = '"+list.get(0).get("recharge_area").toString()+"'," +
-						"business_type = "+Integer.valueOf(list.get(0).get("business_type").toString())+"," +
-						"flow_type = "+Integer.valueOf(list.get(0).get("flow_type").toString())+"," +
-						"flow_value ="+Integer.valueOf(list.get(0).get("flow_value").toString())+"," +
-						"expiry_date = "+Integer.valueOf(list.get(0).get("expiry_date").toString())+"," +
-						"add_able = "+Integer.valueOf(list.get(0).get("add_able").toString())+"," +
-						"enable_rule = "+Integer.valueOf(list.get(0).get("enable_rule").toString())+"," +
+						"business_type = "+Integer.valueOf(request.getString("businessType"))+"," +
+						"flow_type = "+Integer.valueOf(request.getString("flowType"))+"," +
+						"flow_value ="+Integer.valueOf(request.getString("flowValue"))+"," +
+						"expiry_date = "+Integer.valueOf(request.getString("expiryDate"))+"," +
+						"add_able = "+1+"," +
+						"enable_rule = "+Integer.valueOf(request.getString("enableRule"))+"," +
 						"price = "+request.getLong("tprice")+"," +
 						"phone_number = '"+request.getString("phone")+"'," +
 						"status =0," +
@@ -210,7 +210,7 @@ public class TransactionDao {
 		List<Map<String,Object>> list= Global.jdbcTemplate.queryForList("" +
 				"select * from sets where code='"+request.getString("set_code")+"'");
 		
-		if(list!=null&&list.size()==1)
+		if(list!=null)
 		{
 			
 			Global.jdbcTemplate.execute("update transaction_log set " +
@@ -223,12 +223,12 @@ public class TransactionDao {
 					"set_code = '"+request.getString("set_code")+"'," +
 					"operators_area = '"+list.get(0).get("area_code").toString()+"'," +
 					"recharge_area = '"+list.get(0).get("recharge_area").toString()+"'," +
-					"business_type = "+Integer.valueOf(list.get(0).get("business_type").toString())+"," +
-					"flow_type = "+Integer.valueOf(list.get(0).get("flow_type").toString())+"," +
-					"flow_value ="+Integer.valueOf(list.get(0).get("flow_value").toString())+"," +
-					"expiry_date = "+Integer.valueOf(list.get(0).get("expiry_date").toString())+"," +
-					"add_able = "+Integer.valueOf(list.get(0).get("add_able").toString())+"," +
-					"enable_rule = "+Integer.valueOf(list.get(0).get("enable_rule").toString())+"," +
+					"business_type = "+Integer.valueOf(request.getString("businessType"))+"," +
+					"flow_type = "+Integer.valueOf(request.getString("flowType"))+"," +
+					"flow_value ="+Integer.valueOf(request.getString("flowValue"))+"," +
+					"expiry_date = "+Integer.valueOf(request.getString("expiryDate"))+"," +
+					"add_able = "+1+"," +
+					"enable_rule = "+Integer.valueOf(request.getString("enableRule"))+"," +
 					"price = "+request.getLong("tprice")+"," +
 					"phone_number = '"+request.getString("phone")+"'," +
 					"status =1," +
@@ -309,12 +309,12 @@ public class TransactionDao {
 		 		" '"+request.getString("set_code")+"'," +
 		 		" '"+list.get(0).get("area_code").toString()+"'," +
 		 		" '"+list.get(0).get("recharge_area").toString()+"'," +
-		 		" "+Integer.valueOf(list.get(0).get("business_type").toString())+"," +
-		 		" "+Integer.valueOf(list.get(0).get("flow_type").toString())+"," +
-		 		" "+Integer.valueOf(list.get(0).get("flow_value").toString())+"," +
-		 		" "+Integer.valueOf(list.get(0).get("expiry_date").toString())+"," +
-		 		" "+Integer.valueOf(list.get(0).get("add_able").toString())+"," +
-		 		" "+Integer.valueOf(list.get(0).get("enable_rule").toString())+"," +
+		 		" "+Integer.valueOf(request.getString("businessType"))+"," +
+		 		" "+Integer.valueOf(request.getString("flowType"))+"," +
+		 		" "+Integer.valueOf(request.getString("flowValue"))+"," +
+		 		" "+Integer.valueOf(request.getString("expiryDate"))+"," +
+		 		" "+1+"," +
+		 		" "+Integer.valueOf(request.getString("enableRule"))+"," +
 		 		" "+request.getLong("tprice")+"," +
 		 		" '"+request.getString("phone")+"'," +
 		 		" 1," +

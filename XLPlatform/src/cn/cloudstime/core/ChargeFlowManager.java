@@ -15,6 +15,9 @@ public class ChargeFlowManager {
 
 		request.put("transaction_state", 1);
 		JedisUtil.lpush(Global.LOG_QUEUE, request.toString());
+		
+		
+		
 
 		if ((!Global.BUSINESS_USER_STATE
 				.containsKey(Global.HEAD_BUSINESS_USER_STATE + request.getString("business_user_code")))
@@ -53,6 +56,8 @@ public class ChargeFlowManager {
 			request.put("operator_code", "CU");
 		} else if (("电信".equals(ownership.getString("supplier"))) || ("中国电信".equals(ownership.getString("supplier")))) {
 			request.put("operator_code", "CT");
+		}else if (("其他".equals(ownership.getString("supplier")))) {
+			request.put("operator_code", "OT");
 		}
 
 		JSONObject channels = new JSONObject();

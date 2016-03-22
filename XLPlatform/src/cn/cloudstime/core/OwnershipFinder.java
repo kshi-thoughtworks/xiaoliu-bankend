@@ -15,6 +15,16 @@ public class OwnershipFinder {
 	public JSONObject findOwnership(JSONObject request) {
 		try {
 			JSONObject ownsership = new JSONObject();
+			
+			//物联网卡特殊处理
+			if("2".equals(request.getString("businessType")))
+			{
+				JSONObject obj=new JSONObject();
+				obj.put("province", "全国");
+				obj.put("supplier", "其他");
+				return obj;
+			}	
+				
 
 			TransactionDao dao = new TransactionDao();
 

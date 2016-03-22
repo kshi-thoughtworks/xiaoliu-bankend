@@ -1,6 +1,7 @@
 package cn.cloudstime.core;
 
 import cn.cloudstime.global.Global;
+import cn.cloudstime.main.CardUtil;
 import cn.cloudstime.main.ECUtils;
 import cn.cloudstime.main.FJUtils;
 import cn.cloudstime.main.LMUtils;
@@ -8,6 +9,8 @@ import cn.cloudstime.main.MXUtils;
 import cn.cloudstime.util.JedisUtil;
 import ecinterface.adc.NGEC;
 import ecinterface.adc.Response;
+
+import java.awt.CardLayout;
 import java.io.PrintStream;
 import java.util.Map;
 import org.json.JSONObject;
@@ -241,6 +244,64 @@ public class OutputManager {
 
 				}
 
+			}else if (channel.getInt("interface_flag") == 5) {
+				System.out.println("WLWK出口");
+
+				String result3 = null;
+				try {
+					result3 =CardUtil.order("100861405", "21vianet100861405", request.getString("transaction_code"), request.getString("phone"), Integer.valueOf(request.getString("expiryDate")));
+				} catch (Exception e) {
+					
+					result3 = null;
+				}
+
+				if (result3 != null) {
+					JSONObject object3 = new JSONObject(result3);
+
+					if ("0000".equals(object3.getString("status"))) {
+						
+						channel_output_success_asyc(request);
+						
+					} 
+					else 
+					{
+						System.out.println("WLWKfail");
+						
+						if(has_next_channel(request, channels))
+						{
+							channel_output_fail_channellog(request,String.valueOf(object3.getString("status")),3, object3.getString("message"));
+							try_next_channel(request, channels);
+						}
+						else
+						{
+							
+							System.out.println("记录错误日志");
+							channel_output_fail_transactionlog(request,Global.EXCEPTION_CHANNEL_OUTPUT_ERROR,3,Global.EXCEPTION_MAP.get(Global.EXCEPTION_CHANNEL_OUTPUT_ERROR));
+							
+							channel_output_fail_channellog(request,String.valueOf(object3.getString("status")),3, object3.getString("message"));
+							
+							refund(request, channels);
+						}
+
+					}
+
+				} else {
+					if(has_next_channel(request, channels))
+					{
+						channel_output_fail_channellog(request,"",3, "");
+						try_next_channel(request, channels);
+					}
+					else
+					{
+						channel_output_fail_transactionlog(request,Global.EXCEPTION_CHANNEL_OUTPUT_ERROR,3,Global.EXCEPTION_MAP.get(Global.EXCEPTION_CHANNEL_OUTPUT_ERROR));
+						
+						channel_output_fail_channellog(request,"",3, "");
+						
+						refund(request, channels);
+					}
+
+				}
+
 			}
 
 		} else {
@@ -284,7 +345,7 @@ public class OutputManager {
 	private void try_next_channel(JSONObject request,JSONObject channels)
 	{
 		 
-			JedisUtil.lpush(Global.CHANNELFAIL_QUEUE, request.toString());
+			//JedisUtil.lpush(Global.CHANNELFAIL_QUEUE, request.toString());
 			request.put("target_channel_index", request.getInt("target_channel_index") + 1);
 
 			output(request);
