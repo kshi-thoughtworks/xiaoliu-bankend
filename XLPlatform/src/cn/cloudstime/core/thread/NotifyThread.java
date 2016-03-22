@@ -64,7 +64,7 @@ public class NotifyThread {
 									JedisUtil.lpush(Global.REQUEST_QUEUE, request.toString());
 
 									
-									request.put("transaction_error_code", 0);
+									request.put("transaction_error_code", "0");
 									request.put("transaction_state", 3);
 									request.put("transaction_error_info", result.getString("retmsg"));
 									JedisUtil.lpush(Global.LOG_QUEUE, request.toString());

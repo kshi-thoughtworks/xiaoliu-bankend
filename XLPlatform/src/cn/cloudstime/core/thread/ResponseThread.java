@@ -66,7 +66,7 @@ public class ResponseThread {
 										? request.getString("transaction_error_info") : "充值成功";
 								String trade_no = request.getString("transaction_code");
 								Integer trade_status = Integer.valueOf(request.has("transaction_error_code")
-										? request.getInt("transaction_error_code") : 1);
+										? Integer.valueOf(request.getString("transaction_error_code")) : 1);
 								TransactionDao dao = new TransactionDao();
 								String key = dao.findBusinessKey(request).getString("user_key");
 
