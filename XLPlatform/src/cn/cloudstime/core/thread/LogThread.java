@@ -50,7 +50,15 @@ public class LogThread {
 									Global.jdbcTemplate
 											.execute("update recharge_log set recharge_flow_number='"+request.getString("transaction_code")+"' where id="
 													+ request.getInt("recharge_log_id"));
+								}else if(request.getInt("transaction_type") == 3)
+								{
+									TransactionDao dao = new TransactionDao();
+									dao.transactionLogforState_T(request);
 								}
+									
+								
+								
+								
 							} catch (Exception e) {
 								e.printStackTrace();
 								System.out.println(request);
