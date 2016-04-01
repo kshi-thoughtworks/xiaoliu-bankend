@@ -195,7 +195,7 @@ public class OutputManager {
 							String.valueOf(request.getInt("flowValue")), request.getString("operator_code"),
 							request.getString("transaction_code"));
 				} catch (Exception e) {
-					
+				    e.printStackTrace();
 					result2 = null;
 				}
 
@@ -228,6 +228,10 @@ public class OutputManager {
 					}
 
 				} else {
+					
+					System.out.println("MLfail"+"出口:"+has_next_channel(request, channels));
+					
+					
 					if(has_next_channel(request, channels))
 					{
 						channel_output_fail_channellog(request,"",3, "");
@@ -386,6 +390,8 @@ public class OutputManager {
 		request.put("transaction_error_code", error_code);
 		request.put("transaction_state", state);
 		request.put("transaction_error_info", error_info);
+		
+		System.out.println("出口异常："+request);
 		JedisUtil.lpush(Global.LOG_QUEUE, request.toString());
 		JedisUtil.lpush(Global.RESPONSE_QUEUE, request.toString());
 	}

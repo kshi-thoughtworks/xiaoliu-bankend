@@ -85,42 +85,9 @@ public class ChargeFlowManager {
 			BusinessUserBalanceBean bubb = (BusinessUserBalanceBean) Global.BUSINESS_USER_BALANCE
 					.get(Global.HEAD_BUSINESS_USER_BALANCE + request.getString("business_user_code"));
 
-			Long balance = bubb.transaction(Integer.valueOf(1),
-					Long.valueOf(((JSONObject) channels.get("channel_0")).getLong("dprice")));
-			
-			if (balance.longValue() > -1L) {
-				request.put("balance", balance);
-				request.put("deduction", ((JSONObject) channels.get("channel_0")).getLong("dprice"));
-				request.put("set_code", ((JSONObject) channels.get("channel_0")).getString("set_code"));
-				request.put("interface_flag", ((JSONObject) channels.get("channel_0")).getInt("interface_flag"));
-				request.put("platform_id", ((JSONObject) channels.get("channel_0")).getInt("platform_id"));
-				request.put("platform_name", ((JSONObject) channels.get("channel_0")).getString("name"));
-				request.put("tprice", ((JSONObject) channels.get("channel_0")).getLong("tprice"));
-				request.put("dprice", ((JSONObject) channels.get("channel_0")).getLong("dprice"));
-
-				JedisUtil.lpush(Global.OUPPUT_QUEUE, request.toString());
-			} else {
-				request.put("balance",
-						((BusinessUserBalanceBean) Global.BUSINESS_USER_BALANCE
-								.get(Global.HEAD_BUSINESS_USER_BALANCE + request.getString("business_user_code")))
-										.getBalance());
-				request.put("deduction", ((JSONObject) channels.get("channel_0")).getLong("dprice"));
-				request.put("set_code", ((JSONObject) channels.get("channel_0")).getString("set_code"));
-				request.put("interface_flag", ((JSONObject) channels.get("channel_0")).getInt("interface_flag"));
-				request.put("platform_id", ((JSONObject) channels.get("channel_0")).getInt("platform_id"));
-				request.put("platform_name", ((JSONObject) channels.get("channel_0")).getString("name"));
-				request.put("tprice", ((JSONObject) channels.get("channel_0")).getLong("tprice"));
-
-				request.put("transaction_state", 3);
-				request.put("transaction_error_code", Global.EXCEPTION_CODE_BUSINESS_BALANCE_NOTENOUGH_ERROR);
-				request.put("transaction_error_info",
-						Global.EXCEPTION_MAP.get(Global.EXCEPTION_CODE_BUSINESS_BALANCE_NOTENOUGH_ERROR));
-				JedisUtil.lpush(Global.LOG_QUEUE, request.toString());
-
-				JedisUtil.lpush(Global.RESPONSE_QUEUE, request.toString());
-				return false;
-			}
-
+			bubb.transaction(Integer.valueOf(1),
+					Long.valueOf(((JSONObject) channels.get("channel_0")).getLong("dprice")),request);
+		
 		}
 
 		return true;

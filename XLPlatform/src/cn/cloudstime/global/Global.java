@@ -82,7 +82,7 @@ public class Global {
 
 	public static String BAIDU_PHONE_OWNERSHIP_KEY = "9d7cfc9acba0606e959b3505c5fe06a0";
 
-	public static String REDIS_HOST_IP = "192.168.0.135";
+	public static String REDIS_HOST_IP = "172.16.192.103";
 
 	public static String EXCEPTION_CODE_BUSINESS_USER_STATE_ERROR = "6001";
 
@@ -95,6 +95,8 @@ public class Global {
 	public static String EXCEPTION_BUSINESS_ORDERNO_REPEAT = "6005";
 
 	public static String EXCEPTION_CHANNEL_OUTPUT_ERROR = "6006";
+	
+	public static String EXCEPTION_IPAY_INTERFACE_ERROR = "6007";
 
 	public static Map<String, String> EXCEPTION_MAP = new HashMap();
 
@@ -107,8 +109,15 @@ public class Global {
 		EXCEPTION_MAP.put(EXCEPTION_CODE_BUSINESS_BALANCE_NOTENOUGH_ERROR, "商户余额不足，无法充值");
 		EXCEPTION_MAP.put(EXCEPTION_BUSINESS_ORDERNO_REPEAT, "订单号重复");
 		EXCEPTION_MAP.put(EXCEPTION_CHANNEL_OUTPUT_ERROR, "第三方接口请求失败，无法充值");
-	}
-	
+		EXCEPTION_MAP.put(EXCEPTION_IPAY_INTERFACE_ERROR, "交易接口调用失败");
+		EXCEPTION_MAP.put("0000001", "系统异常");
+		EXCEPTION_MAP.put("1010101", "充值参数错误");
+		EXCEPTION_MAP.put("1010102", "充值失败");
+		EXCEPTION_MAP.put("1010201", "支付参数错误");
+		EXCEPTION_MAP.put("1010202", "支付失败");
+		EXCEPTION_MAP.put("1010203", "余额不足");
+		EXCEPTION_MAP.put("1010301", "商户不存在或冻结");
+	}	
 	public static List<Thread> THREAD_POOL=new ArrayList<Thread>();
 	
 	public static boolean THREAD_STOP=true;

@@ -133,35 +133,7 @@ public class TransactionDao {
 					"select * from sets where code='"+request.getString("set_code")+"'");
 			
 			
-			if("6001".equals(request.getString("transaction_error_code"))||"6002".equals(request.getString("transaction_error_code"))||"6003".equals(request.getString("transaction_error_code"))||"6005".equals(request.getString("transaction_error_code"))||"6006".equals(request.getString("transaction_error_code")))
-			{
-				Global.jdbcTemplate.execute("update transaction_log set " +
-						"transaction_code ='"+request.getString("transaction_code")+"'," +
-						"bu_code ='"+request.getString("business_user_code")+"'," +
-						"deduction ="+request.getLong("deduction")+"," +
-						"balance = "+request.getLong("balance")+"," +
-						//"update_time = SYSDATE()," +
-						"operators  ='"+request.getString("operator_code")+"'," +
-						"set_code = '"+request.getString("set_code")+"'," +
-						"operators_area = '"+list.get(0).get("area_code").toString()+"'," +
-						"recharge_area = '"+list.get(0).get("recharge_area").toString()+"'," +
-						"business_type = "+Integer.valueOf(request.getString("businessType"))+"," +
-						"flow_type = "+Integer.valueOf(request.getString("flowType"))+"," +
-						"flow_value ="+Integer.valueOf(request.getString("flowValue"))+"," +
-						"expiry_date = "+Integer.valueOf(request.getString("expiryDate"))+"," +
-						"add_able = "+1+"," +
-						"enable_rule = "+Integer.valueOf(request.getString("enableRule"))+"," +
-						"price = "+request.getLong("tprice")+"," +
-						"phone_number = '"+request.getString("phone")+"'," +
-						"status =0," +
-						"return_msg ='"+request.getString("transaction_error_info")+"'," +
-						"bu_transaction_code ='"+request.getString("orderNo")+"'" +
-						//"platform_name ='"+request.getString("platform_name")+"'" +
-						" where transaction_code='"+request.getString("transaction_code")+"'");
-				
-				
-			}
-			else if("6004".equals(request.getString("transaction_error_code")))
+			 if("6004".equals(request.getString("transaction_error_code")))
 			{
 				
 				
@@ -190,6 +162,32 @@ public class TransactionDao {
 						" where transaction_code='"+request.getString("transaction_code")+"'");
 				
 			}
+			 else
+			 {
+				 Global.jdbcTemplate.execute("update transaction_log set " +
+							"transaction_code ='"+request.getString("transaction_code")+"'," +
+							"bu_code ='"+request.getString("business_user_code")+"'," +
+							"deduction ="+request.getLong("deduction")+"," +
+							"balance = "+request.getLong("balance")+"," +
+							//"update_time = SYSDATE()," +
+							"operators  ='"+request.getString("operator_code")+"'," +
+							"set_code = '"+request.getString("set_code")+"'," +
+							"operators_area = '"+list.get(0).get("area_code").toString()+"'," +
+							"recharge_area = '"+list.get(0).get("recharge_area").toString()+"'," +
+							"business_type = "+Integer.valueOf(request.getString("businessType"))+"," +
+							"flow_type = "+Integer.valueOf(request.getString("flowType"))+"," +
+							"flow_value ="+Integer.valueOf(request.getString("flowValue"))+"," +
+							"expiry_date = "+Integer.valueOf(request.getString("expiryDate"))+"," +
+							"add_able = "+1+"," +
+							"enable_rule = "+Integer.valueOf(request.getString("enableRule"))+"," +
+							"price = "+request.getLong("tprice")+"," +
+							"phone_number = '"+request.getString("phone")+"'," +
+							"status =0," +
+							"return_msg ='"+request.getString("transaction_error_info")+"'," +
+							"bu_transaction_code ='"+request.getString("orderNo")+"'" +
+							//"platform_name ='"+request.getString("platform_name")+"'" +
+							" where transaction_code='"+request.getString("transaction_code")+"'");
+			 }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
