@@ -102,12 +102,12 @@ public class TransactionDao {
 		 		" null," +
 		 		" null," +
 		 		" null," +
-		 		" null," +
-		 		" null," +
+		 		" "+Integer.valueOf(request.getString("businessType"))+"," +
+		 		" "+Integer.valueOf(request.getString("flowType"))+"," +
 		 		" "+Integer.valueOf(request.getString("flowValue"))+"," +
-		 		" null," +
-		 		" null," +
-		 		" null," +
+		 		" "+Integer.valueOf(request.getString("expiryDate"))+"," +
+		 		" 1," +
+		 		" "+Integer.valueOf(request.getString("enableRule"))+"," +
 		 		" null," +
 		 		" '"+request.getString("phone")+"'," +
 		 		" -1," +
